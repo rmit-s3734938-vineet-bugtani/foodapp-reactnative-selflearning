@@ -1,13 +1,22 @@
 import React from 'react';
-import {StyleSheet, View, Text, FlatList, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 export default class All extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [
         {
-          name: 'Stewed Mushrooms',
+          name: 'Mushrooms',
           image: require('../asset/namkho.jpg'),
           rating: 3,
           price: '$12',
@@ -38,6 +47,11 @@ export default class All extends React.Component {
         },
       ],
     };
+    this._loadFont();
+  }
+
+  _loadFont() {
+    Icon.loadFont();
   }
 
   _rating(item) {
@@ -66,6 +80,11 @@ export default class All extends React.Component {
         <View style={styles.content}>
           <Text style={styles.name}>{item.name}</Text>
           <View style={styles.rating}>{this._rating(item.rating)}</View>
+        </View>
+        <View style={styles.arrowContainer}>
+          <TouchableOpacity style={styles.arrow}>
+            <Icon name="arrow-right" size={10} color="green" />
+          </TouchableOpacity>
         </View>
       </LinearGradient>
     );
@@ -116,7 +135,8 @@ var styles = StyleSheet.create({
     borderRadius: 10,
   },
   content: {
-    paddingHorizontal: 10,
+    marginLeft: 10,
+    flex: 1,
   },
   name: {
     color: 'white',
@@ -131,5 +151,17 @@ var styles = StyleSheet.create({
     width: 15,
     height: 15,
     marginRight: 5,
+  },
+  arrow: {
+    width: 30,
+    height: 30,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+  },
+  arrowContainer: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
 });
