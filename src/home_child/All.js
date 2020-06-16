@@ -80,6 +80,9 @@ export default class All extends React.Component {
         <View style={styles.content}>
           <Text style={styles.name}>{item.name}</Text>
           <View style={styles.rating}>{this._rating(item.rating)}</View>
+          <View style={styles.priceContainer}>
+            <Text style={styles.price}>{item.price}</Text>
+          </View>
         </View>
         <View style={styles.arrowContainer}>
           <TouchableOpacity style={styles.arrow}>
@@ -124,8 +127,8 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image_container: {
-    height: 100,
-    width: 100,
+    height: 90,
+    width: 90,
   },
   image: {
     width: '100%',
@@ -163,5 +166,19 @@ var styles = StyleSheet.create({
   arrowContainer: {
     alignItems: 'flex-end',
     justifyContent: 'center',
+  },
+  priceContainer: {
+    width: 60,
+    height: 30,
+    backgroundColor: 'white',
+    marginTop: 10,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  price: {
+    color: 'green',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
