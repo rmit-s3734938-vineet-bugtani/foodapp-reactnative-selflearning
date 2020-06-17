@@ -6,46 +6,51 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+var data = [
+  {
+    name: 'Mushrooms',
+    image: require('../asset/namkho.jpg'),
+    rating: 3,
+    price: '$12',
+  },
+  {
+    name: 'Jackfruit Fried',
+    image: require('../asset/mitkho.jpg'),
+    rating: 5,
+    price: '$15',
+  },
+  {
+    name: 'Noodles',
+    image: require('../asset/hutieu.jpg'),
+    rating: 4,
+    price: '$20',
+  },
+  {
+    name: 'Beef',
+    image: require('../asset/cuonlalot.jpg'),
+    rating: 2,
+    price: '$12',
+  },
+  {
+    name: 'Salad dressing',
+    image: require('../asset/cuondiep.jpg'),
+    rating: 5,
+    price: '$13',
+  },
+];
 
 export default class All extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {
-          name: 'Mushrooms',
-          image: require('../asset/namkho.jpg'),
-          rating: 3,
-          price: '$12',
-        },
-        {
-          name: 'Jackfruit Fried',
-          image: require('../asset/mitkho.jpg'),
-          rating: 5,
-          price: '$15',
-        },
-        {
-          name: 'Noodles',
-          image: require('../asset/hutieu.jpg'),
-          rating: 4,
-          price: '$20',
-        },
-        {
-          name: 'Beef',
-          image: require('../asset/cuonlalot.jpg'),
-          rating: 2,
-          price: '$12',
-        },
-        {
-          name: 'Salad dressing',
-          image: require('../asset/cuondiep.jpg'),
-          rating: 5,
-          price: '$13',
-        },
-      ],
+      data: data,
+      data_temp: data,
+      search: '',
     };
     this._loadFont();
   }
@@ -67,6 +72,19 @@ export default class All extends React.Component {
     return rating;
   }
 
+  _search(text) {
+    let filteredData = [];
+    this.state.data_temp.map(function(value) {
+      if (value.name.indexOf(text) > -1) {
+        filteredData.push(value);
+      }
+    });
+    this.setState({
+      data: filteredData,
+      search: text,
+    });
+  }
+
   renderItem = ({item}) => {
     return (
       <LinearGradient
@@ -85,7 +103,15 @@ export default class All extends React.Component {
           </View>
         </View>
         <View style={styles.arrowContainer}>
-          <TouchableOpacity style={styles.arrow}>
+          <TouchableOpacity
+            style={styles.arrow}
+            onPress={() =>
+              this.props.props.navigation.navigate('DetailScreen', {
+                image: item.image,
+                price: item.price,
+                name: item.name,
+              })
+            }>
             <Icon name="arrow-right" size={10} color="green" />
           </TouchableOpacity>
         </View>
@@ -96,6 +122,23 @@ export default class All extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.section}>
+          <TextInput
+            style={styles.sectionText}
+            placeholder="Search.."
+            value={this.state.search}
+            onChangeText={text => this._search(text)}
+          />
+          <TouchableOpacity hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}>
+            <Icon
+              onPress={() => this._search('')}
+              style={styles.sectionIcon}
+              name="close"
+              size={18}
+              color="grey"
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.flatlist}>
           <FlatList
             data={this.state.data}
@@ -117,13 +160,14 @@ var styles = StyleSheet.create({
   },
   flatlist: {
     flex: 1,
+    marginTop: 10,
   },
   item: {
     flex: 1,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
-    marginTop: 10,
+    marginBottom: 10,
     flexDirection: 'row',
   },
   image_container: {
@@ -180,5 +224,22 @@ var styles = StyleSheet.create({
     color: 'green',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  section: {
+    paddingVertical: 10,
+    backgroundColor: '#f2f2f2',
+    marginTop: 10,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sectionText: {
+    marginLeft: 15,
+    fontSize: 18,
+    flex: 1,
+  },
+  sectionIcon: {
+    alignItems: 'flex-end',
+    marginRight: 20,
   },
 });
