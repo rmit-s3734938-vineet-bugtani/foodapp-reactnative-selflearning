@@ -55,7 +55,7 @@ var styles = StyleSheet.create({
   tabbar: {
     flex: 1,
     paddingHorizontal: 30,
-    marginTop: -50,
+    marginTop: -60,
   },
   imageBackground: {
     width: width * 0.4,
